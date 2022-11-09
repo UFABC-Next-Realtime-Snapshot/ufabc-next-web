@@ -72,7 +72,7 @@ export default [
   {
     title: 'Realtime da Matrícula',
     featured: true,
-    icon: 'account_balance',
+    icon: 'mdi-clock',
     route: '/realtime',
   }
 

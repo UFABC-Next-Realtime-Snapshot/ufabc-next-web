@@ -25,7 +25,6 @@ function RedirectIfLogged(params) {
   return function (to, from, next) {
     if(to.name == 'login') {
       let token = _.get(to, 'query.token', null)
-      console.log(token)
       if(!token) {
         const inApp = !!window.cordova
           
