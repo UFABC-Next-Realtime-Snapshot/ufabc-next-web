@@ -1,0 +1,28 @@
+{
+  "subjects":[
+      {
+          "id": 1,
+          "codidoDisciplina": "AAVVCC",
+          "crCorte":2,
+          "cpCorte":2.5,
+          "turno":"Matutino",
+          "status":":)"
+      },
+      {
+          "id": 2,
+          "codidoDisciplina": "BBTTYY",
+          "crCorte":1.8,
+          "cpCorte":2,
+          "turno":"Matutino",
+          "status":":)"
+      },
+      {
+          "id": 3,
+          "codidoDisciplina": "XXUUII",
+          "crCorte":3,
+          "cpCorte":3,
+          "turno":"Matutino",
+          "status":":("
+      }
+  ]
+}

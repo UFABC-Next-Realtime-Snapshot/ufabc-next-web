@@ -64,6 +64,9 @@ Vue.use(Element)
 
 Vue.config.productionTip = false
 
+import {Model} from "vue-api-query";
+Model.$http = Axios;
+
 Axios.interceptors.response.use(null, function (error) {
   const status = error.response && error.response.status
   if (status === 401) {

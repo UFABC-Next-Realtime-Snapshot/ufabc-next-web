@@ -5,6 +5,12 @@
   "scripts": {
     "build": "cp -a public/. dist && cd web && yarn install && yarn build",
     "start": "cd web && yarn start",
-    "start-prod": "cd web && rm -rf .env.development.local && cat .env.production >> .env.development.local && yarn start"
+    "start-prod": "cd web && rm -rf .env.development.local && cat .env.production >> .env.development.local && yarn start",
+    "fakeapi":"json-server --watch db.json"
+  },
+  "dependencies": {
+    "axios": "^1.2.0",
+    "json-server": "^0.17.1",
+    "vue-api-query": "^1.11.0"
   }
 }
