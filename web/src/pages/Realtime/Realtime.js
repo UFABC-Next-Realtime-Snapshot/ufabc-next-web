@@ -3,6 +3,7 @@ import Histories from '@/services/Histories'
 import ErrorMessage from '@/helpers/ErrorMessage'
 import PrettySeason from '@/helpers/PrettySeason'
 import findSeasonKey from '@/helpers/FindSeason'
+import SubjectModel from '@/models/SubjectModel'
 import _ from 'lodash'
 
 export default {
@@ -75,8 +76,9 @@ export default {
     }
   },
 
-  created() {
-    this.fetchAll()
+  async created() {
+    this.subjects = await SubjectModel.get();
+    this.fetchAll();
   },
 
   methods: {
