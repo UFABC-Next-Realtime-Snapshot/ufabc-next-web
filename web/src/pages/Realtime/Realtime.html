@@ -65,79 +65,29 @@
   
     </v-layout>
     <v-layout column wrap class="white mt-3 pa-4" style="border-radius: 4px;">
-      <div class="enrollments-title stats-counter">Status da matrícula</div>
-     
+    <div class="enrollments-title stats-counter">Status da matrícula</div>
+    <table class="table table-bordered table-dark table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Códido Disciplina</th>
+          <th>Cr Corte</th>
+          <th>Cp Corte</th>
+          <th>Turno</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(subject, index) in subjects" :key="index">
+          <td v-text="subject.id" ></td>
+          <td v-text="subject.codidoDisciplina"></td>
+          <td v-text="subject.crCorte"></td>
+          <td v-text="subject.cpCorte"></td>
+          <td v-text="subject.turno"></td>
+          <td>Vou fazer</td>
+        </tr>
+      </tbody>
+    </table>
   
-      <el-tabs v-model="tab">
-        <el-tab-pane label="Disciplinas" name="disciplines">
-        </el-tab-pane>
-      </el-tabs>
-  
-      <v-layout class="enrollments-subtitle stats-subtitle mb-2" v-if='total >= 0 && !loading' wrap align-center>
-        <!-- <v-flex> 
-          {{ total }} resultados encontrados
-        </v-flex> -->
-  
-        <!-- <el-select v-model="orderby" placeholder="Ordenar por" :style="{ 'minWidth': $vuetify.breakpoint.xsOnly ? '100%' : '200px' }">
-          <el-option
-            v-for="order in orders"
-            :key="order.value"
-            :label="order.label"
-            :value="order.value">
-          </el-option>
-        </el-select> -->
-      </v-layout>
-  
-      <el-table
-        empty-text="Nenhum dado encontrado"
-        ref="disciplinas"
-        v-loading='loading'
-        :data="disciplinas"
-        style="width: 100%">
-        <el-table-column
-          fixed="left"
-          min-width="200"
-          label="Nome da disciplina">
-          <template slot-scope="scope">
-            {{ matriculaNameLabel(scope.row)}}
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="vagas"
-          label="Cód. Disciplina"
-          align="center"
-          width="150">
-        </el-table-column>
-        <el-table-column
-          prop="requisicoes"
-          label="Cr de Corte"
-          align="center"
-          width="150">
-        </el-table-column>
-        <el-table-column
-          prop="deficit"
-          label="Cp de Corte"
-          align="center"
-          width="150">
-        </el-table-column>
-        <el-table-column
-          prop="ratio"
-          label="Turno"
-          align="center"
-          width="160">
-          <template slot-scope="scope">
-            {{ scope.row.ratio.toFixed(2)}}
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="status"
-          label="Status"
-          align="center"
-          width="150">
-        </el-table-column>
-      </el-table>
-      <el-button class="load-more" @click="fetch(true)" v-if='more' :loading="moreLoading">
-        Carregar mais <i class="el-icon-arrow-down el-icon-right"></i>
-      </el-button>
     </v-layout>
   </v-container>

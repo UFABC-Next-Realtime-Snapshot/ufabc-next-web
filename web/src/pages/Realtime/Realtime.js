@@ -4,84 +4,40 @@ import ErrorMessage from '@/helpers/ErrorMessage'
 import PrettySeason from '@/helpers/PrettySeason'
 import findSeasonKey from '@/helpers/FindSeason'
 import SubjectModel from '@/models/SubjectModel'
+import Axios from 'axios'
+
+
 import _ from 'lodash'
 
 export default {
-  name: 'Stats',
-
+  name: 'Subjects',
   data(){
     return {
-      loading: false,
-      tab: '',
-
-      disciplinas: null,
-      page: 0,
-      moreLoading: false,
-      limit: 10,
-      more: false,
-      total: null,
-
-      filterByPeriod: ['diurno', 'noturno'],
-      orders: [{
-        value: 'requisicoes',
-        label: 'Requisições'
-      }, {
-        value: 'vagas',
-        label: 'Vagas'
-      },{
-        value: 'deficit',
-        label: 'Deficit'
-      }, {
-        value: 'ratio',
-        label: 'Pessoas por vaga'
-      }],
-      orderby: 'deficit',
       season: findSeasonKey(),
-
-      overview: null,
       usage: null,
-      courses: null,
+      subjects:[],
     }
   },
-
-  watch: {
-    tab(val) {
-      this.fetch()
-      this.total = null
-      // clear internal sort of table when external button clicked
-      this.$refs && this.$refs.disciplinas && this.$refs.disciplinas.clearSort();
-    },
-
-    orderby() {
-      this.fetch()
-    },
-
-    filterByPeriod(newVal) {
-      if(!newVal || newVal.length == 0) {
-        this.filterByPeriod = ['diurno', 'noturno']
-        return
-      }
-      this.fetch()
-      this.fetchOverview()
-    }
-  },
-
   computed: {
     prettySeason() {
       return PrettySeason(this.season)
     },
-
-    deficitLabel() {
-      return this.overview.deficit > 0 ? 'vagas que faltaram' : 'vagas que sobraram'
-    }
   },
 
   async created() {
-    this.subjects = await SubjectModel.get();
     this.fetchAll();
   },
 
   methods: {
+    getSubject(){
+      const URL = "http://localhost:3000/subjects"
+      Axios
+      .get(URL)
+      .then( res => {
+        this.subjects = res.data;
+        console.log(res.data);
+      })
+    },
     allSeasons() {
       let firstSeason = '2019:1'
       let finalSeason = findSeasonKey()
@@ -131,55 +87,15 @@ export default {
       } catch(e) {} 
     },
 
-    mapTurnoLabel(turno) {
-      return {
-        'noturno': 'Noturno',
-        'diurno': 'Matutino'
-      }[turno]
-    },
 
-    matriculaNameLabel(data) {
-      if(this.tab == 'courses') {
-        return this.mapCourseName(data._id)
-      }
-      if(!data || !data.disciplina) return
-      if(this.tab == 'disciplines') {
-        return data.disciplina
-      }
-
-      return data.disciplina + ' ' + data.turma + '-' + this.mapTurnoLabel(data.turno)
-    },
-
-    mapCourseName(courseId) {
-      let course = _.find(this.courses, { curso_id: courseId })
-      if(course){
-        return course.name
-      }
-    },
 
     fetchAll() {
       this.fetch()
       this.fetchOverview()
       this.fetchUsage()
-      this.fetchCourses()
     },
-
-    async fetchCourses() {
-      let body = {
-        season: this.season
-      }
-
-      try {
-        let res = await Histories.getCourses(body)
-
-        if(res.data) {
-          this.courses = res.data
-        }
-      } catch(err) {
-
-      }
-    },
-
+    
+  
     async fetchOverview() {
       let body = {
         season: this.season
@@ -268,5 +184,14 @@ export default {
       }
     },
 
+  },
+  mounted(){
+    this.getSubject();
   }
 }
+
+
+
+
+
+
