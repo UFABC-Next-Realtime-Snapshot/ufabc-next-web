@@ -1,28 +1,37 @@
 {
   "subjects":[
       {
-          "id": 1,
-          "codidoDisciplina": "AAVVCC",
-          "crCorte":2,
-          "cpCorte":2.5,
-          "turno":"Matutino",
-          "status":":)"
+        "code": "aCode",
+        "course": "BCT",
+        "name": "aName",
+        "shift": "MORNING",
+        "subscribers": 6,
+        "theoryProfessor": "romário",
+        "thresholdCp": {},
+        "thresholdCr": {},
+        "vacancies": 10
       },
       {
-          "id": 2,
-          "codidoDisciplina": "BBTTYY",
-          "crCorte":1.8,
-          "cpCorte":2,
-          "turno":"Matutino",
-          "status":":)"
+        "code": "bCode",
+        "course": "BCT",
+        "name": "bName",
+        "shift": "MORNING",
+        "subscribers": 6,
+        "theoryProfessor": "romário",
+        "thresholdCp": {},
+        "thresholdCr": {},
+        "vacancies": 10
       },
       {
-          "id": 3,
-          "codidoDisciplina": "XXUUII",
-          "crCorte":3,
-          "cpCorte":3,
-          "turno":"Matutino",
-          "status":":("
+        "code": "cCode",
+        "course": "BCT",
+        "name": "cName",
+        "shift": "MORNING",
+        "subscribers": 6,
+        "theoryProfessor": "romário",
+        "thresholdCp": {},
+        "thresholdCr": {},
+        "vacancies": 10
       }
   ]
 }

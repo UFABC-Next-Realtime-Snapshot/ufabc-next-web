@@ -58,3 +58,41 @@
     border-top-right-radius: 0px;
     border-top: none;
   }
+  .table{
+    width:100%;
+    table-layout: fixed;
+
+    border: collapse;
+  }
+
+  .table-title{
+    font-size: large;
+  
+  }
+
+  .table-content{
+    font-size: medium;
+  }
+
+  th,td{
+    padding:15px;
+
+  }
+
+  th{
+    text-align: left;
+    height:40px;
+    vertical-align:bottom;
+    font-size: 1.3rem;
+  }
+ 
+  .isGreen{
+    color:#3FCF8C !important;
+  }
+  .isRed{
+    color:#E17472 !important;
+  }
+  .isYellow{
+    color:#FFCB17 !important
+  }
+  

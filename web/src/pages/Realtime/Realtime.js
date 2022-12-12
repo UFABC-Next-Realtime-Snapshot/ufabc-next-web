@@ -1,23 +1,28 @@
 import Stats from '@/services/Stats'
-import Histories from '@/services/Histories'
 import ErrorMessage from '@/helpers/ErrorMessage'
 import PrettySeason from '@/helpers/PrettySeason'
 import findSeasonKey from '@/helpers/FindSeason'
-import SubjectModel from '@/models/SubjectModel'
 import Axios from 'axios'
 
 
 import _ from 'lodash'
 
+
 export default {
+
   name: 'Subjects',
   data(){
     return {
       season: findSeasonKey(),
       usage: null,
       subjects:[],
+      isRed:false,
+      isYellow:false,
+      isGreen:false,
+      contAmarelo:null,
     }
   },
+
   computed: {
     prettySeason() {
       return PrettySeason(this.season)
@@ -28,89 +33,64 @@ export default {
     this.fetchAll();
   },
 
-  methods: {
-    getSubject(){
-      const URL = "http://localhost:3000/subjects"
-      Axios
-      .get(URL)
-      .then( res => {
-        this.subjects = res.data;
-        console.log(res.data);
-      })
-    },
-    allSeasons() {
-      let firstSeason = '2019:1'
-      let finalSeason = findSeasonKey()
+ 
 
-      let currentSeason = firstSeason
-      let seasons = [{
-        text: PrettySeason(currentSeason),
-        value: currentSeason
-      }]
-      while(currentSeason != finalSeason) {
-        let year = currentSeason.split(':')[0]
-        let quad = currentSeason.split(':')[1]
-        if(quad == 3) {
-          quad = 1
-          year++
-        } else {
-          quad++
+  _methods: {
+    
+    async getSubject() {
+      const URL = "http://localhost:7711/students/student/11224/disciplines"
+      const cpAluno = 0.7;
+      
+      var contVerde = 0;
+      var contVermelho =0;
+      await Axios
+        .get(URL)
+        .then(res => {
+          this.subjects = res.data;
+          
+          res.data.forEach(element => {
+          if(element.thresholdCp < cpAluno){
+            this.isGreen = !this.isGreen;
+          }else if(element.thresholdCp == cpAluno){
+            this.isYellow = !this.isYellow;
+            
+          }else{
+            this.isRed= !this.isRed;
+          }
+
+          if(element.shift == 'M'){
+           this.changeText();
+          }
+        });
         }
-        currentSeason = year + ':' + quad
-        seasons.push({
-          text: PrettySeason(currentSeason),
-          value: currentSeason
-        })
-      }
-
-      return seasons
+        )
+        
     },
-
-    async changeTargetSeason() {
-      let dialog = this.$dialog({
-        title: 'Alterar quadrimestre',
-        width: '750px',
-        top: '10vh',
-        inputType: 'select', 
-        items: this.allSeasons(),
-        inputPlaceholder: 'Escolha o quadrimestre',
-        validationRules: 'required',
-      })
-
-      try {
-        let res = await dialog
-        if(res) {
-          this.season = res
-          this.fetchAll()
-        }
-
-      } catch(e) {} 
+   changeText(){
+      var title = document.querySelector("#dynamicId");
+      title.innerHTML = "muda texto";
     },
-
-
-
     fetchAll() {
       this.fetch()
       this.fetchOverview()
       this.fetchUsage()
+      
+      
     },
-    
-  
     async fetchOverview() {
       let body = {
         season: this.season
       }
-      if(this.filterByPeriod && this.filterByPeriod.length == 1){
+      if (this.filterByPeriod && this.filterByPeriod.length == 1) {
         body.turno = this.filterByPeriod[0]
       }
 
       try {
         let res = await Stats.matricula('overview', body)
-        if(res.data && res.data.data && res.data.data.length) {
+        if (res.data && res.data.data && res.data.data.length) {
           this.overview = res.data.data[0]
         }
-      } catch(err) {
-
+      } catch (err) {
       }
     },
 
@@ -122,16 +102,15 @@ export default {
       try {
         let res = await Stats.matriculaUsage(body)
 
-        if(res.data) {
+        if (res.data) {
           this.usage = res.data
         }
-      } catch(err) {
-
+      } catch (err) {
       }
     },
 
     async fetch(more) {
-      if(more) {
+      if (more) {
         this.loading = false
         this.page = this.page + 1
         this.moreLoading = true
@@ -142,12 +121,12 @@ export default {
         this.moreLoading = true
       }
 
-      let body = { 
-        page: this.page, 
+      let body = {
+        page: this.page,
         [this.orderby]: 1,
         season: this.season,
       }
-      if(this.filterByPeriod && this.filterByPeriod.length == 1){
+      if (this.filterByPeriod && this.filterByPeriod.length == 1) {
         body.turno = this.filterByPeriod[0]
       }
 
@@ -171,7 +150,7 @@ export default {
           this.more = false
         }
         this.total = res.data.total
-      } catch(err) {
+      } catch (err) {
         this.loading = false
         this.moreLoading = false
 
@@ -180,13 +159,21 @@ export default {
         this.$message({
           type: 'error',
           message: ErrorMessage(err),
-        }) 
+        })
       }
     },
+  },
 
+  get methods() {
+    return this._methods
+  },
+  set methods(value) {
+    this._methods = value
   },
   mounted(){
     this.getSubject();
+   
+    
   }
 }
 
