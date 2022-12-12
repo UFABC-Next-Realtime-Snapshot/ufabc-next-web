@@ -9,7 +9,7 @@
   
       <v-flex xs12 sm3 md3 lg3 class="card-stats" v-if='usage'>
         <v-icon  id="verde" class="mb-1" color="ufabcnext-green" style="display: block;"size="40px">mdi-emoticon-happy-outline</v-icon>
-        <div class="enrollments-title stats-counter">2 Matérias</div>
+        <div class="enrollments-title stats-counter">1 Matéria</div>
         <div class="stats-subtitle" id="textoA">sem risco de chute</div>
         <div>
           <v-progress-linear
@@ -23,7 +23,7 @@
   
       <v-flex xs12 sm3 md3 lg3 class="card-stats" v-if='usage'>
         <v-icon id="amarelo" class="mb-1" color="ufabcnext-yellow" style="display: block;"size="40px">mdi-emoticon-neutral-outline</v-icon>
-        <div class="enrollments-title stats-counter">1 Matéria</div>
+        <div class="enrollments-title stats-counter">0 Matéria</div>
         <div class="stats-subtitle">com risco de chute</div>
         <div v-if='!$vuetify.breakpoint.xsOnly'>
           <v-progress-linear
@@ -37,7 +37,7 @@
   
       <v-flex xs12 sm3 md3 lg3 class="card-stats" v-if='usage'>
         <v-icon id="vermelho" class="mb-1" color="ufabcnext-red" style="display: block;" size="40px">mdi-emoticon-sad-outline</v-icon>
-        <div class="enrollments-title stats-counter">1 Matéria</div>
+        <div class="enrollments-title stats-counter">0 Matéria</div>
         <div class="stats-subtitle">com certeza de chute</div>
         <div v-if='!$vuetify.breakpoint.xsOnly'>
           <v-progress-linear
@@ -66,7 +66,6 @@
     </v-layout>
     <v-layout column wrap class="white mt-3 pa-4" style="border-radius: 4px;">
     <div class="enrollments-title stats-counter">Status da matrícula</div>
-    <h1 >Texto</h1>
     <table class="table">
       <thead>
         <tr class="table-title">
@@ -78,15 +77,15 @@
           <th>Status</th>
         </tr>
       </thead>
-      <tbody >
+      <tbody>
         <tr v-for="(subject, index) in subjects" :key="index" class="table-content">
           <td v-text="subject.name"></td>
           <td v-text="subject.code"></td>
           <td v-text="subject.thresholdCr"></td>
           <td v-text="subject.thresholdCp" v-bind:class="{isGreen: isGreen, isRed: isRed, isYellow: isYellow}"></td>
-          <td v-bind:id="dynamicId"></td>
+          <td v-text="subject.shift"></td>
           <td>
-            <v-icon size="2rem" v-bind:class="{isGreen: isGreen, isRed: isRed, isYellow: isYellow}">mdi-emoticon-sad-outline</v-icon>
+            <v-icon size="2rem" v-bind:class="{isGreen: isGreen, isRed: isRed, isYellow: isYellow}">mdi-emoticon-neutral-outline</v-icon>
           </td>
         </tr>
       </tbody>

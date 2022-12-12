@@ -19,7 +19,6 @@ export default {
       isRed:false,
       isYellow:false,
       isGreen:false,
-      contAmarelo:null,
     }
   },
 
@@ -35,40 +34,39 @@ export default {
 
  
 
-  _methods: {
-    
+  _methods: { 
     async getSubject() {
       const URL = "http://localhost:7711/students/student/11224/disciplines"
-      const cpAluno = 0.7;
+      const cpAluno = 0.8;
       
-      var contVerde = 0;
-      var contVermelho =0;
+    
       await Axios
         .get(URL)
         .then(res => {
           this.subjects = res.data;
-          
+          this.contAmarelo=true;
           res.data.forEach(element => {
-          if(element.thresholdCp < cpAluno){
-            this.isGreen = !this.isGreen;
-          }else if(element.thresholdCp == cpAluno){
-            this.isYellow = !this.isYellow;
-            
-          }else{
-            this.isRed= !this.isRed;
-          }
+            try{if(element.thresholdCp < cpAluno){
+              this.isGreen = !this.isGreen;
+            }else if(element.thresholdCp == cpAluno){
+              this.isYellow = !this.isYellow;
+            }else{
+              this.isRed= !this.isRed;
+              this.changeText();
+            }}
+          catch(err){
 
-          if(element.shift == 'M'){
-           this.changeText();
           }
+          
+          
         });
         }
         )
         
     },
    changeText(){
-      var title = document.querySelector("#dynamicId");
-      title.innerHTML = "muda texto";
+      document.querySelector("#dynamicId").disabled=true;
+     
     },
     fetchAll() {
       this.fetch()
@@ -114,6 +112,7 @@ export default {
         this.loading = false
         this.page = this.page + 1
         this.moreLoading = true
+        this.contAmarelo = true;
       } else {
         this.loading = true
         this.page = 0
@@ -172,7 +171,7 @@ export default {
   },
   mounted(){
     this.getSubject();
-   
+    this.changeText();
     
   }
 }
